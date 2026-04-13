@@ -24,13 +24,21 @@ export function WaterButton({ slug }: { slug: string }) {
         setLastWatered(data.logs[0].watered_at);
       }
     } catch {
-      // API not available (local dev / static preview)
+      // API not available
     }
   }, [slug]);
 
   useEffect(() => {
     fetchLast();
   }, [fetchLast]);
+
+  const finishAnimation = () => {
+    setState("done");
+    setTimeout(() => {
+      setState("idle");
+      setRipple(false);
+    }, 2500);
+  };
 
   const handleWater = async () => {
     setState("loading");
@@ -42,20 +50,12 @@ export function WaterButton({ slug }: { slug: string }) {
         body: JSON.stringify({ slug }),
       });
       if (res.ok) {
-        setState("done");
         await fetchLast();
-        setTimeout(() => {
-          setState("idle");
-          setRipple(false);
-        }, 2500);
-      } else {
-        setState("idle");
-        setRipple(false);
       }
     } catch {
-      setState("idle");
-      setRipple(false);
+      // API not available (local dev) - still play the animation
     }
+    finishAnimation();
   };
 
   const formatDate = (iso: string) => {
@@ -82,15 +82,7 @@ export function WaterButton({ slug }: { slug: string }) {
           }`}
         />
 
-        <span
-          className={`relative inline-flex items-center justify-center transition-all duration-300 ${
-            state === "loading"
-              ? "w-3.5"
-              : state === "done"
-                ? "w-3.5"
-                : "w-3.5"
-          }`}
-        >
+        <span className="relative inline-flex items-center justify-center w-3.5 h-3.5">
           <Droplets
             className={`h-3.5 w-3.5 absolute transition-all duration-300 ${
               state === "idle"
@@ -114,9 +106,9 @@ export function WaterButton({ slug }: { slug: string }) {
           />
         </span>
 
-        <span className="relative overflow-hidden h-[1em]">
+        <span className="relative overflow-hidden h-[1.4em]">
           <span
-            className={`block transition-all duration-300 ${
+            className={`block leading-[1.4em] transition-all duration-300 ${
               state === "done"
                 ? "-translate-y-full opacity-0"
                 : "translate-y-0 opacity-100"
@@ -125,7 +117,7 @@ export function WaterButton({ slug }: { slug: string }) {
             I just watered this
           </span>
           <span
-            className={`block transition-all duration-300 text-botanical ${
+            className={`block leading-[1.4em] transition-all duration-300 text-botanical ${
               state === "done"
                 ? "-translate-y-full opacity-100"
                 : "translate-y-0 opacity-0"
