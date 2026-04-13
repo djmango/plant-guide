@@ -23,6 +23,20 @@ export const metadata: Metadata = {
     url: "https://plants.skg.gg",
     siteName: "Plant Care Guide",
     type: "website",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Plant Care Guide — 10 illustrated houseplants",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Plant Care Guide",
+    description: "A catalog and care guide for 10 houseplants.",
+    images: ["/og-image.png"],
   },
 };
 
