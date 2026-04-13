@@ -113,7 +113,7 @@ export function WaterButton({ slug }: { slug: string }) {
                 : "translate-y-0 opacity-0"
             }`}
           >
-            Logged
+            Thank you! :)
           </span>
         </span>
       </button>
