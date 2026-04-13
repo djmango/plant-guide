@@ -138,28 +138,29 @@ export default function Home() {
 
                   {/* Watering animation overlay */}
                   <div
-                    className={`absolute inset-0 flex flex-col items-center justify-center pointer-events-none transition-all duration-500 ${
+                    className={`absolute inset-0 pointer-events-none transition-all duration-500 ${
                       isWatering ? "opacity-100" : "opacity-0"
                     }`}
                   >
                     <img
                       src="/images/watering-can.webp"
                       alt=""
-                      className={`w-2/3 object-contain transition-all duration-700 ${
+                      className={`absolute top-[10%] left-[10%] w-[70%] object-contain transition-all duration-700 ${
                         isWatering
                           ? "translate-y-0 opacity-100"
                           : "-translate-y-4 opacity-0"
                       }`}
                     />
-                    <div
-                      className={`flex gap-1 mt-1 transition-all duration-500 delay-300 ${
-                        isWatering ? "opacity-100" : "opacity-0"
-                      }`}
-                    >
-                      <span className="block w-1 h-1 rounded-full bg-water animate-bounce [animation-delay:0ms]" />
-                      <span className="block w-1.5 h-1.5 rounded-full bg-water animate-bounce [animation-delay:150ms]" />
-                      <span className="block w-1 h-1 rounded-full bg-water animate-bounce [animation-delay:300ms]" />
-                    </div>
+                    {isWatering && (
+                      <div className="absolute left-[18%] top-[52%] w-[10%]">
+                        <span className="absolute w-1 h-1 rounded-full bg-water/80 animate-[waterfall_0.8s_ease-in_infinite_0ms]" />
+                        <span className="absolute left-1 w-[5px] h-[5px] rounded-full bg-water/60 animate-[waterfall_0.8s_ease-in_infinite_200ms]" />
+                        <span className="absolute left-2.5 w-1 h-1 rounded-full bg-water/70 animate-[waterfall_0.8s_ease-in_infinite_400ms]" />
+                        <span className="absolute left-0.5 w-[3px] h-[3px] rounded-full bg-water/50 animate-[waterfall_0.8s_ease-in_infinite_100ms]" />
+                        <span className="absolute left-1.5 w-1 h-1 rounded-full bg-water/60 animate-[waterfall_0.8s_ease-in_infinite_300ms]" />
+                        <span className="absolute left-3 w-[3px] h-[3px] rounded-full bg-water/40 animate-[waterfall_0.8s_ease-in_infinite_500ms]" />
+                      </div>
+                    )}
                   </div>
 
                   {/* Water button */}
