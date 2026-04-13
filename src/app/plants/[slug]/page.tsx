@@ -138,7 +138,7 @@ export default async function PlantPage({
 
       {/* Watering + QR */}
       <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-6 border border-ink/10 px-5 py-5">
-        <WaterButton slug={plant.slug} />
+        <WaterButton slug={plant.slug} waterFrequency={plant.waterFrequency} />
         <PlantQRCode slug={plant.slug} name={plant.name} />
       </div>
     </div>

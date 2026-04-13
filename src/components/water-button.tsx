@@ -10,25 +10,49 @@ interface WateringLog {
   notes: string | null;
 }
 
-export function WaterButton({ slug }: { slug: string }) {
+function parseWaterFrequencyDays(freq: string): number {
+  const match = freq.match(/(\d+)(?:\s*[–-]\s*(\d+))?/);
+  if (!match) return 7;
+  if (match[2])
+    return Math.round((parseInt(match[1]) + parseInt(match[2])) / 2);
+  return parseInt(match[1]);
+}
+
+function nextWaterLabel(daysSinceWater: number, expectedDays: number): string {
+  const daysUntil = expectedDays - daysSinceWater;
+  if (daysUntil <= 0) return "Overdue!";
+  if (daysUntil === 1) return "Tomorrow";
+  const next = new Date();
+  next.setDate(next.getDate() + daysUntil);
+  if (daysUntil <= 6)
+    return next.toLocaleDateString("en-US", { weekday: "long" });
+  return next.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+}
+
+export function WaterButton({
+  slug,
+  waterFrequency,
+}: {
+  slug: string;
+  waterFrequency: string;
+}) {
   const [state, setState] = useState<"idle" | "loading" | "done">("idle");
-  const [lastWatered, setLastWatered] = useState<string | null>(null);
-  const fetchLast = useCallback(async () => {
+  const [logs, setLogs] = useState<WateringLog[]>([]);
+
+  const fetchLogs = useCallback(async () => {
     try {
       const res = await fetch(`/api/water?slug=${slug}`);
       if (!res.ok) return;
       const data = (await res.json()) as { logs: WateringLog[] };
-      if (data.logs.length > 0) {
-        setLastWatered(data.logs[0].watered_at);
-      }
+      setLogs(data.logs);
     } catch {
       // API not available
     }
   }, [slug]);
 
   useEffect(() => {
-    fetchLast();
-  }, [fetchLast]);
+    fetchLogs();
+  }, [fetchLogs]);
 
   const finishAnimation = () => {
     setState("done");
@@ -46,27 +70,32 @@ export function WaterButton({ slug }: { slug: string }) {
         body: JSON.stringify({ slug }),
       });
       if (res.ok) {
-        await fetchLast();
+        await fetchLogs();
       }
     } catch {
-      // API not available (local dev) - still play the animation
+      // API not available - still play the animation
     }
     finishAnimation();
   };
 
-  const formatDate = (iso: string) => {
-    const d = new Date(iso + "Z");
-    const now = new Date();
-    const diffMs = now.getTime() - d.getTime();
-    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  const lastLog = logs.length > 0 ? logs[0] : null;
+  const daysSince = lastLog
+    ? Math.floor(
+        (new Date().getTime() - new Date(lastLog.watered_at + "Z").getTime()) /
+          (1000 * 60 * 60 * 24)
+      )
+    : null;
+  const expectedDays = parseWaterFrequencyDays(waterFrequency);
 
-    if (diffDays === 0) return "Today";
-    if (diffDays === 1) return "Yesterday";
-    return `${diffDays} days ago`;
+  const formatRelative = (days: number) => {
+    if (days === 0) return "Today";
+    if (days === 1) return "Yesterday";
+    return `${days} days ago`;
   };
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-4 w-full">
+      {/* Button */}
       <button
         onClick={handleWater}
         disabled={state !== "idle"}
@@ -118,15 +147,47 @@ export function WaterButton({ slug }: { slug: string }) {
         </span>
       </button>
 
-      <p
-        className={`font-mono text-[10px] text-ink-light tracking-wide text-center transition-all duration-500 ${
-          lastWatered
-            ? "opacity-100 translate-y-0"
-            : "opacity-0 -translate-y-1"
-        }`}
-      >
-        {lastWatered ? `Last watered: ${formatDate(lastWatered)}` : "\u00A0"}
-      </p>
+      {/* Status + Next water */}
+      {daysSince !== null && (
+        <div className="flex items-baseline justify-between">
+          <span className="font-mono text-[10px] text-ink-light tracking-wide">
+            Last watered: {formatRelative(daysSince)}
+          </span>
+          <span
+            className={`font-mono text-[10px] tracking-wide ${
+              expectedDays - daysSince <= 0
+                ? "text-danger"
+                : expectedDays - daysSince <= 2
+                  ? "text-terra"
+                  : "text-botanical"
+            }`}
+          >
+            Next: {nextWaterLabel(daysSince, expectedDays)}
+          </span>
+        </div>
+      )}
+
+      {/* History */}
+      {logs.length > 0 && (
+        <div className="border-t border-ink/10 pt-3">
+          <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-ink-light mb-2">
+            Watering History
+          </p>
+          <div className="space-y-1">
+            {logs.slice(0, 8).map((log) => (
+              <p key={log.id} className="font-mono text-[10px] text-ink-light">
+                {new Date(log.watered_at + "Z").toLocaleDateString("en-US", {
+                  weekday: "short",
+                  month: "short",
+                  day: "numeric",
+                  hour: "numeric",
+                  minute: "2-digit",
+                })}
+              </p>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
