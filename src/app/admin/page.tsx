@@ -25,6 +25,7 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [deleting, setDeleting] = useState<string | null>(null);
+  const [toast, setToast] = useState<string | null>(null);
   const [blocked, setBlocked] = useState(false);
 
   useEffect(() => {
@@ -63,15 +64,6 @@ export default function AdminPage() {
     key: "id" | "ip" | "user_agent",
     value: string | number
   ) => {
-    const label =
-      key === "id"
-        ? `log #${value}`
-        : key === "ip"
-          ? `all logs from IP ${value}`
-          : `all logs from this user agent`;
-
-    if (!confirm(`Delete ${label}?`)) return;
-
     setDeleting(`${key}:${value}`);
     try {
       const res = await fetch("/api/admin/logs", {
@@ -80,12 +72,14 @@ export default function AdminPage() {
         body: JSON.stringify({ [key]: value }),
       });
       if (res.ok) {
-        const data = (await res.json()) as { deleted: number };
-        alert(`Deleted ${data.deleted} log(s)`);
         await fetchLogs();
+      } else {
+        setToast("Failed to delete");
+        setTimeout(() => setToast(null), 3000);
       }
     } catch {
-      alert("Failed to delete");
+      setToast("Failed to delete");
+      setTimeout(() => setToast(null), 3000);
     } finally {
       setDeleting(null);
     }
@@ -272,6 +266,12 @@ export default function AdminPage() {
           </div>
         </div>
       </div>
+
+      {toast && (
+        <div className="fixed bottom-6 right-6 border border-danger/30 bg-danger/10 px-4 py-2 font-mono text-[11px] text-danger animate-in fade-in slide-in-from-bottom-2">
+          {toast}
+        </div>
+      )}
     </div>
   );
 }
