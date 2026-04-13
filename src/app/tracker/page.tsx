@@ -123,7 +123,7 @@ export default function TrackerPage() {
                 >
                   <Link
                     href={`/plants/${plant.slug}`}
-                    className="shrink-0 w-10 h-10 border border-ink/10 bg-paper flex items-center justify-center overflow-hidden"
+                    className="shrink-0 w-10 h-10 flex items-center justify-center overflow-hidden"
                   >
                     <img
                       src={plant.imageUrl}
