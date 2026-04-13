@@ -17,12 +17,22 @@ interface IpStat {
   count: number;
 }
 
+const ALLOWED_HOST = "plants.skg.gg";
+
 export default function AdminPage() {
   const [logs, setLogs] = useState<WateringLog[]>([]);
   const [ipStats, setIpStats] = useState<IpStat[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [deleting, setDeleting] = useState<string | null>(null);
+  const [blocked, setBlocked] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.location.hostname !== ALLOWED_HOST) {
+      setBlocked(true);
+      setLoading(false);
+    }
+  }, []);
 
   const fetchLogs = useCallback(async () => {
     try {
@@ -85,6 +95,18 @@ export default function AdminPage() {
     return (
       <div className="flex items-center justify-center py-20">
         <Loader2 className="h-5 w-5 animate-spin text-ink-light" />
+      </div>
+    );
+  }
+
+  if (blocked) {
+    return (
+      <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6">
+        <div className="border border-danger/30 bg-danger/5 px-4 py-3">
+          <p className="font-mono text-[11px] text-danger">
+            Admin is only accessible on the primary domain.
+          </p>
+        </div>
       </div>
     );
   }
