@@ -14,6 +14,13 @@ export const metadata: Metadata = {
   description:
     "A catalog and care guide for houseplants. Shopping lists, repotting instructions, watering schedules, and soil recipes.",
   metadataBase: new URL("https://plants.skg.gg"),
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
   openGraph: {
     title: "Plant Care Guide",
     description: "A catalog and care guide for 10 houseplants.",
