@@ -7,7 +7,6 @@ import {
   Thermometer,
   Wind,
   ArrowLeft,
-  AlertTriangle,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -26,8 +25,6 @@ export default async function PlantPage({
   const { slug } = await params;
   const plant = getPlantBySlug(slug);
   if (!plant) return notFound();
-
-  const isToxic = plant.tags.includes("toxic");
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6">
@@ -64,15 +61,6 @@ export default async function PlantPage({
             {plant.description}
           </p>
 
-          {isToxic && (
-            <div className="mt-4 flex items-start gap-2 border border-danger/30 bg-danger/5 px-3 py-2">
-              <AlertTriangle className="h-4 w-4 text-danger shrink-0 mt-0.5" />
-              <p className="font-mono text-[11px] text-danger leading-relaxed">
-                Toxic sap — always wear gloves when handling. Keep away from
-                pets.
-              </p>
-            </div>
-          )}
 
           <div className="mt-6 flex flex-wrap gap-2">
             <Badge
