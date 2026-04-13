@@ -166,7 +166,9 @@ export default function Home() {
                   <button
                     onClick={(e) => handleWater(plant.slug, e)}
                     disabled={!!wateringSlug}
-                    className="absolute top-1 right-1 transition-all duration-300 cursor-pointer sm:opacity-0 sm:group-hover:opacity-100"
+                    className={`absolute top-1 right-1 transition-all duration-300 cursor-pointer sm:opacity-0 sm:group-hover:opacity-100 ${
+                      isWatering ? "!opacity-0 pointer-events-none" : ""
+                    }`}
                     title="Log watering"
                   >
                     <img
