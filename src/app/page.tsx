@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { plants } from "@/data/plants";
-import { Check } from "lucide-react";
+
 
 interface WateringLog {
   id: number;
@@ -166,22 +166,18 @@ export default function Home() {
                   <button
                     onClick={(e) => handleWater(plant.slug, e)}
                     disabled={!!wateringSlug}
-                    className={`absolute top-2 right-2 p-1.5 sm:p-2 rounded-full transition-all duration-300 cursor-pointer ${
-                      isWatering
-                        ? "bg-botanical/20 scale-110"
-                        : "bg-paper/80 hover:bg-water/10 sm:opacity-0 sm:group-hover:opacity-100"
-                    }`}
+                    className="absolute top-1 right-1 transition-all duration-300 cursor-pointer sm:opacity-0 sm:group-hover:opacity-100"
                     title="Log watering"
                   >
-                    {isWatering ? (
-                      <Check className="h-6 w-6 text-botanical" />
-                    ) : (
-                      <img
-                        src="/images/watering-can.webp"
-                        alt="Water"
-                        className="h-7 w-7 sm:h-8 sm:w-8 object-contain opacity-60 hover:opacity-100 transition-opacity"
-                      />
-                    )}
+                    <img
+                      src="/images/watering-can.webp"
+                      alt="Water"
+                      className={`w-10 h-10 sm:w-12 sm:h-12 object-contain transition-all duration-300 ${
+                        isWatering
+                          ? "scale-125 opacity-100"
+                          : "opacity-50 hover:opacity-90 hover:scale-110"
+                      }`}
+                    />
                   </button>
                 </div>
 
