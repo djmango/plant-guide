@@ -11,6 +11,8 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { WaterButton } from "@/components/water-button";
+import { PlantQRCode } from "@/components/qr-code";
 
 export function generateStaticParams() {
   return plants.map((plant) => ({ slug: plant.slug }));
@@ -144,6 +146,12 @@ export default async function PlantPage({
           Care Notes
         </h2>
         <p className="text-sm text-ink leading-relaxed">{plant.notes}</p>
+      </div>
+
+      {/* Watering + QR */}
+      <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-6 border border-ink/10 px-5 py-5">
+        <WaterButton slug={plant.slug} />
+        <PlantQRCode slug={plant.slug} name={plant.name} />
       </div>
     </div>
   );
