@@ -14,11 +14,11 @@ export function PlantCard({ plant }: { plant: Plant }) {
           className="max-h-full max-w-full object-contain object-bottom transition-transform duration-500 ease-out will-change-transform group-hover:scale-[1.04]"
         />
       </div>
-      <div className="border-t border-ink/10 px-3 py-2.5">
-        <p className="text-sm font-normal text-ink leading-tight">
+      <div className="border-t border-ink/10 px-2 py-2 sm:px-3 sm:py-2.5">
+        <p className="text-xs sm:text-sm font-normal text-ink leading-tight">
           {plant.name}
         </p>
-        <p className="mt-0.5 font-mono text-[10px] text-ink-light italic">
+        <p className="mt-0.5 font-mono text-[9px] sm:text-[10px] text-ink-light italic truncate">
           {plant.scientificName}
         </p>
       </div>

@@ -51,7 +51,7 @@ export default async function PlantPage({
           <div className="mb-1 font-mono text-[10px] uppercase tracking-[0.2em] text-ink-light">
             Plant No. {String(plants.indexOf(plant) + 1).padStart(2, "0")}
           </div>
-          <h1 className="text-3xl font-light tracking-tight text-ink">
+          <h1 className="text-2xl sm:text-3xl font-light tracking-tight text-ink">
             {plant.name}
           </h1>
           <p className="mt-1 font-mono text-xs italic text-ink-light">
@@ -117,12 +117,12 @@ export default async function PlantPage({
           ].map((spec) => (
             <div
               key={spec.label}
-              className="grid grid-cols-[140px_1fr] sm:grid-cols-[180px_1fr]"
+              className="grid grid-cols-[110px_1fr] sm:grid-cols-[180px_1fr]"
             >
-              <div className="px-4 py-2.5 font-mono text-[11px] uppercase tracking-[0.1em] text-ink-light bg-paper-dark/50">
+              <div className="px-3 py-2.5 font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.1em] text-ink-light bg-paper-dark/50 sm:px-4">
                 {spec.label}
               </div>
-              <div className="px-4 py-2.5 text-sm text-ink">{spec.value}</div>
+              <div className="px-3 py-2.5 text-xs sm:text-sm text-ink sm:px-4">{spec.value}</div>
             </div>
           ))}
         </div>
