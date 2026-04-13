@@ -19,7 +19,7 @@ export const repottingSteps: RepottingStep[] = [
     number: 2,
     title: "Mix your soils",
     instruction:
-      "Mix soils in a bucket or tub — FoxFarm + perlite for tropicals, cactus mix + perlite for succulents.",
+      "Mix soils in a bucket or tub - FoxFarm + perlite for tropicals, cactus mix + perlite for succulents.",
     icon: "beaker",
     plantNotes: [
       "70/30 FoxFarm/perlite → Fiddle Leafs, Goldfish Plant, Ficus Benjamina, Ficus Moclame, Kentia Palm, Neanthe Bella Palm",
@@ -31,7 +31,7 @@ export const repottingSteps: RepottingStep[] = [
     number: 3,
     title: "Prepare self-watering pots",
     instruction:
-      "Set up white self-watering pots — place wick, add soil to the bottom.",
+      "Set up white self-watering pots - place wick, add soil to the bottom.",
     icon: "container",
     plantNotes: [
       "Boston Fern, Ficus Benjamina, Ficus Moclame, Kentia Palm, Neanthe Bella Palm → YES fill reservoir after",
@@ -91,6 +91,6 @@ export const repottingSteps: RepottingStep[] = [
       "Put each plant in its final spot. Don't move the Ficus Benjamina again after placing it.",
     icon: "map-pin",
     warning:
-      "Wear gloves for the Firestick — toxic sap burns skin and eyes.",
+      "Wear gloves for the Firestick - toxic sap burns skin and eyes.",
   },
 ];

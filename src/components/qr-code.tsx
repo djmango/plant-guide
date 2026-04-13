@@ -39,7 +39,7 @@ export function PlantQRCode({
     if (!win) return;
     win.document.write(`
       <html>
-        <head><title>QR — ${name}</title></head>
+        <head><title>QR - ${name}</title></head>
         <body style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;margin:0;font-family:monospace">
           <img src="${dataUrl}" style="width:200px;height:200px" />
           <p style="margin-top:12px;font-size:11px;text-transform:uppercase;letter-spacing:0.15em">${name}</p>

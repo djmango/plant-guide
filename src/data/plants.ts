@@ -34,7 +34,7 @@ export const plants: Plant[] = [
     soil: "FoxFarm Ocean Forest + perlite (70/30)",
     soilMix: "foxfarm-70-30",
     water:
-      "Every 10 days — let top 2\" dry, then drench until water runs out the bottom",
+      "Every 10 days - let top 2\" dry, then drench until water runs out the bottom",
     waterFrequency: "Every 10 days",
     waterMethod: "top-pour",
     letDry: 'Top 2" dry',
@@ -42,7 +42,7 @@ export const plants: Plant[] = [
     humidity: "50–65%",
     temp: "60–80°F",
     notes:
-      "Don't move it around. Rotate ¼ turn monthly for even growth. Wipe leaves with damp cloth monthly — dust blocks light.",
+      "Don't move it around. Rotate ¼ turn monthly for even growth. Wipe leaves with damp cloth monthly - dust blocks light.",
     tags: ["ficus", "statement", "bright-light"],
   },
   {
@@ -50,7 +50,7 @@ export const plants: Plant[] = [
     name: "Fiddle Leaf Fig Bush",
     scientificName: "Ficus lyrata",
     description:
-      "Same big leaves but shorter and bushier — multiple stems instead of one trunk.",
+      "Same big leaves but shorter and bushier - multiple stems instead of one trunk.",
     imageUrl: "/images/plants/fiddle-leaf-fig-bush.webp",
     currentPot: '12"',
     newPot: 'Black ceramic 14" w/ linocut leaf pattern on 3-leg wood stand',
@@ -58,7 +58,7 @@ export const plants: Plant[] = [
     soil: "FoxFarm Ocean Forest + perlite (70/30)",
     soilMix: "foxfarm-70-30",
     water:
-      'Every 8 days — top 2" dry then drench. Smaller pot dries faster than the tree.',
+      'Every 8 days - top 2" dry then drench. Smaller pot dries faster than the tree.',
     waterFrequency: "Every 8 days",
     waterMethod: "top-pour",
     letDry: 'Top 2" dry',
@@ -82,7 +82,7 @@ export const plants: Plant[] = [
     soil: "FoxFarm Ocean Forest + perlite (70/30)",
     soilMix: "foxfarm-70-30",
     water:
-      'Every 7–10 days — let top 1" dry between waterings. Likes consistent moisture but not soggy.',
+      'Every 7–10 days - let top 1" dry between waterings. Likes consistent moisture but not soggy.',
     waterFrequency: "Every 7–10 days",
     waterMethod: "top-pour",
     letDry: 'Top 1" dry',
@@ -110,7 +110,7 @@ export const plants: Plant[] = [
     waterFrequency: "Every 5–7 days",
     waterMethod: "reservoir",
     letDry: "Never let dry",
-    light: "Medium indirect — no direct sun",
+    light: "Medium indirect - no direct sun",
     humidity: "60–80%",
     temp: "60–75°F",
     notes:
@@ -129,15 +129,15 @@ export const plants: Plant[] = [
     potType: "Unglazed terracotta",
     soil: "Cactus/succulent mix + lots of extra perlite (50/50)",
     soilMix: "cactus-succulent",
-    water: "Every 21 days — let it go bone dry. Desert plant, less is more.",
+    water: "Every 21 days - let it go bone dry. Desert plant, less is more.",
     waterFrequency: "Every 21 days",
     waterMethod: "top-pour",
     letDry: "Bone dry",
-    light: "Full sun — brightest spot you have",
+    light: "Full sun - brightest spot you have",
     humidity: "30–50%",
     temp: "50–85°F",
     notes:
-      "TOXIC SAP — always wear gloves when handling. The white milky sap burns skin and eyes. Keep away from pets. Terracotta pot helps it dry out faster which is what it wants.",
+      "TOXIC SAP - always wear gloves when handling. The white milky sap burns skin and eyes. Keep away from pets. Terracotta pot helps it dry out faster which is what it wants.",
     tags: ["succulent", "toxic", "full-sun", "drought-tolerant"],
   },
   {
@@ -161,7 +161,7 @@ export const plants: Plant[] = [
     humidity: "50–60%",
     temp: "60–80°F",
     notes:
-      "HATES being moved — will drop leaves for weeks after relocation. Pick a spot and commit. Leaf drop after bringing it home is normal and temporary.",
+      "HATES being moved - will drop leaves for weeks after relocation. Pick a spot and commit. Leaf drop after bringing it home is normal and temporary.",
     tags: ["ficus", "sensitive", "bright-light"],
   },
   {
@@ -205,11 +205,11 @@ export const plants: Plant[] = [
     waterFrequency: "Every 10–14 days",
     waterMethod: "reservoir",
     letDry: "No",
-    light: "Low to bright indirect — most forgiving for light",
+    light: "Low to bright indirect - most forgiving for light",
     humidity: "50–60%",
     temp: "55–80°F",
     notes:
-      "Brown leaf tips = humidity too low. Mist occasionally or place a pebble tray with water nearby. Slow grower — don't expect fast changes.",
+      "Brown leaf tips = humidity too low. Mist occasionally or place a pebble tray with water nearby. Slow grower - don't expect fast changes.",
     tags: ["palm", "low-light", "forgiving"],
   },
   {
@@ -249,7 +249,7 @@ export const plants: Plant[] = [
     soil: "Cactus/succulent mix + extra perlite",
     soilMix: "cactus-succulent",
     water:
-      "Every 12 days — let it dry out completely between waterings. Succulent, overwatering is the enemy.",
+      "Every 12 days - let it dry out completely between waterings. Succulent, overwatering is the enemy.",
     waterFrequency: "Every 12 days",
     waterMethod: "top-pour",
     letDry: "Completely dry",
@@ -257,7 +257,7 @@ export const plants: Plant[] = [
     humidity: "40–50%",
     temp: "50–80°F",
     notes:
-      "Place on a high ledge so it trails down. Very easy to propagate — just snip a vine and stick it in soil.",
+      "Place on a high ledge so it trails down. Very easy to propagate - just snip a vine and stick it in soil.",
     tags: ["trailing", "succulent", "easy"],
   },
 ];
