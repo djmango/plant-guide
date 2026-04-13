@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Plant Care Guide",
-    description: "A catalog and care guide for 10 houseplants.",
+    description: "A catalog and care guide for my houseplants.",
     url: "https://plants.skg.gg",
     siteName: "Plant Care Guide",
     type: "website",
@@ -28,14 +28,14 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Plant Care Guide — 10 illustrated houseplants",
+        alt: "Plant Care Guide — my houseplants",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Plant Care Guide",
-    description: "A catalog and care guide for 10 houseplants.",
+    description: "A catalog and care guide for my houseplants.",
     images: ["/og-image.png"],
   },
 };
