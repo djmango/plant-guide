@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { plants } from "@/data/plants";
-import { Droplets, Check, Loader2, History } from "lucide-react";
+import { Droplets, Check, Loader2, ChevronDown } from "lucide-react";
 
 interface WateringLog {
   id: number;
@@ -23,6 +23,22 @@ function daysSince(iso: string): number {
   const d = new Date(iso + "Z");
   const now = new Date();
   return Math.floor((now.getTime() - d.getTime()) / (1000 * 60 * 60 * 24));
+}
+
+function nextWaterLabel(daysSinceWater: number | null, expectedDays: number): string {
+  if (daysSinceWater === null) return "No data";
+  const daysUntil = expectedDays - daysSinceWater;
+
+  if (daysUntil <= 0) return "Overdue";
+  if (daysUntil === 1) return "Tomorrow";
+
+  const next = new Date();
+  next.setDate(next.getDate() + daysUntil);
+  const today = new Date();
+  const dayOfWeek = next.toLocaleDateString("en-US", { weekday: "long" });
+
+  if (daysUntil <= 6) return dayOfWeek;
+  return next.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 }
 
 function statusColor(daysSinceWater: number | null, expectedDays: number): string {
@@ -64,7 +80,9 @@ export default function TrackerPage() {
     fetchLogs();
   }, [fetchLogs]);
 
-  const handleWater = async (slug: string) => {
+  const handleWater = async (slug: string, e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    if (wateringSlug) return;
     setWateringSlug(slug);
     try {
       const res = await fetch("/api/water", {
@@ -76,10 +94,9 @@ export default function TrackerPage() {
         await fetchLogs();
       }
     } catch {
-      // API not available
-    } finally {
-      setTimeout(() => setWateringSlug(null), 1000);
+      // API not available - still animate
     }
+    setTimeout(() => setWateringSlug(null), 1500);
   };
 
   const getLastWatered = (slug: string): WateringLog | undefined => {
@@ -97,8 +114,7 @@ export default function TrackerPage() {
           Watering Tracker
         </h1>
         <p className="mt-2 text-sm text-ink-light">
-          Tap to log watering. Color indicates time since last watered relative
-          to each plant&apos;s schedule.
+          Tap plant image to water. Tap row to see history.
         </p>
       </div>
 
@@ -119,27 +135,50 @@ export default function TrackerPage() {
             return (
               <div key={plant.slug}>
                 <div
-                  className={`flex items-center gap-4 px-4 py-3 transition-colors ${statusBg(days, expectedDays)}`}
+                  onClick={() =>
+                    setShowHistory(isShowingHistory ? null : plant.slug)
+                  }
+                  className={`flex items-center gap-3 sm:gap-4 px-3 sm:px-4 py-3 sm:py-4 transition-colors cursor-pointer select-none ${statusBg(days, expectedDays)}`}
                 >
-                  <Link
-                    href={`/plants/${plant.slug}`}
-                    className="shrink-0 w-10 h-10 flex items-center justify-center overflow-hidden"
+                  {/* Plant image - tap to water */}
+                  <button
+                    onClick={(e) => handleWater(plant.slug, e)}
+                    disabled={!!wateringSlug}
+                    className="relative shrink-0 w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center overflow-hidden cursor-pointer group"
                   >
                     <img
                       src={plant.imageUrl}
                       alt={plant.name}
-                      className="h-full w-full object-contain"
+                      className={`h-full w-full object-contain transition-all duration-500 ${
+                        isWatering ? "scale-95 opacity-40" : "group-hover:scale-105"
+                      }`}
                     />
-                  </Link>
+                    <div
+                      className={`absolute inset-0 flex items-center justify-center transition-all duration-500 ${
+                        isWatering
+                          ? "opacity-100 scale-100"
+                          : "opacity-0 scale-75"
+                      }`}
+                    >
+                      <Droplets className="h-6 w-6 text-water animate-bounce" />
+                    </div>
+                    {!isWatering && (
+                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Droplets className="h-5 w-5 text-water/50" />
+                      </div>
+                    )}
+                  </button>
 
+                  {/* Info */}
                   <div className="flex-1 min-w-0">
                     <Link
                       href={`/plants/${plant.slug}`}
+                      onClick={(e) => e.stopPropagation()}
                       className="text-sm text-ink hover:underline truncate block"
                     >
                       {plant.name}
                     </Link>
-                    <div className="flex items-center gap-2 mt-0.5">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-0.5 sm:gap-2 mt-0.5">
                       <span
                         className={`font-mono text-[10px] uppercase tracking-wider ${statusColor(days, expectedDays)}`}
                       >
@@ -151,45 +190,33 @@ export default function TrackerPage() {
                               ? "1 day ago"
                               : `${days} days ago`}
                       </span>
-                      <span className="font-mono text-[9px] text-ink-light">
-                        / {plant.waterFrequency}
+                      <span className="font-mono text-[10px] text-ink-light">
+                        Next: {nextWaterLabel(days, expectedDays)}
                       </span>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-1.5 shrink-0">
-                    <button
-                      onClick={() =>
-                        setShowHistory(isShowingHistory ? null : plant.slug)
-                      }
-                      className="p-2 text-ink-light hover:text-ink transition-colors cursor-pointer"
-                      title="History"
-                    >
-                      <History className="h-3.5 w-3.5" />
-                    </button>
-                    <button
-                      onClick={() => handleWater(plant.slug)}
-                      disabled={isWatering}
-                      className="inline-flex items-center gap-1.5 border border-water/30 px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider text-water hover:bg-water/10 transition-colors disabled:opacity-50 cursor-pointer"
-                    >
-                      {isWatering ? (
-                        <Check className="h-3 w-3" />
-                      ) : (
-                        <Droplets className="h-3 w-3" />
-                      )}
-                      {isWatering ? "Done" : "Water"}
-                    </button>
-                  </div>
+                  {/* Expand indicator */}
+                  <ChevronDown
+                    className={`h-3.5 w-3.5 text-ink-light shrink-0 transition-transform duration-200 ${
+                      isShowingHistory ? "rotate-180" : ""
+                    }`}
+                  />
                 </div>
 
-                {isShowingHistory && (
-                  <div className="px-4 py-3 bg-paper-dark/50 border-t border-ink/5">
+                {/* History panel */}
+                <div
+                  className={`overflow-hidden transition-all duration-300 ease-out ${
+                    isShowingHistory ? "max-h-96" : "max-h-0"
+                  }`}
+                >
+                  <div className="px-3 sm:px-4 py-3 bg-paper-dark/50 border-t border-ink/5">
                     {history.length === 0 ? (
                       <p className="font-mono text-[10px] text-ink-light">
                         No watering history yet.
                       </p>
                     ) : (
-                      <div className="space-y-1">
+                      <div className="space-y-1.5">
                         <p className="font-mono text-[10px] uppercase tracking-wider text-ink-light mb-2">
                           Recent waterings
                         </p>
@@ -198,7 +225,7 @@ export default function TrackerPage() {
                             key={log.id}
                             className="flex items-center gap-3 font-mono text-[10px]"
                           >
-                            <span className="text-ink-light w-28 shrink-0">
+                            <span className="text-ink-light shrink-0">
                               {new Date(log.watered_at + "Z").toLocaleDateString(
                                 "en-US",
                                 {
@@ -220,7 +247,7 @@ export default function TrackerPage() {
                       </div>
                     )}
                   </div>
-                )}
+                </div>
               </div>
             );
           })}
