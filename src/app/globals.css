@@ -109,9 +109,9 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-paper text-ink font-sans;
+    @apply bg-paper text-ink font-sans overflow-x-hidden;
   }
   html {
-    @apply font-sans;
+    @apply font-sans overflow-x-hidden;
   }
 }
