@@ -56,10 +56,16 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
       );
     }
 
+    const ip =
+      context.request.headers.get("cf-connecting-ip") ||
+      context.request.headers.get("x-forwarded-for") ||
+      null;
+    const userAgent = context.request.headers.get("user-agent") || null;
+
     const result = await context.env.DB.prepare(
-      "INSERT INTO watering_logs (plant_slug, watered_at, notes) VALUES (?, datetime('now'), ?)"
+      "INSERT INTO watering_logs (plant_slug, watered_at, notes, ip, user_agent) VALUES (?, datetime('now'), ?, ?, ?)"
     )
-      .bind(body.slug, body.notes || null)
+      .bind(body.slug, body.notes || null, ip, userAgent)
       .run();
 
     return Response.json(
