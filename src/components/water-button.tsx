@@ -13,6 +13,7 @@ interface WateringLog {
 export function WaterButton({ slug }: { slug: string }) {
   const [state, setState] = useState<"idle" | "loading" | "done">("idle");
   const [lastWatered, setLastWatered] = useState<string | null>(null);
+  const [ripple, setRipple] = useState(false);
 
   const fetchLast = useCallback(async () => {
     try {
@@ -33,6 +34,7 @@ export function WaterButton({ slug }: { slug: string }) {
 
   const handleWater = async () => {
     setState("loading");
+    setRipple(true);
     try {
       const res = await fetch("/api/water", {
         method: "POST",
@@ -42,12 +44,17 @@ export function WaterButton({ slug }: { slug: string }) {
       if (res.ok) {
         setState("done");
         await fetchLast();
-        setTimeout(() => setState("idle"), 2000);
+        setTimeout(() => {
+          setState("idle");
+          setRipple(false);
+        }, 2500);
       } else {
         setState("idle");
+        setRipple(false);
       }
     } catch {
       setState("idle");
+      setRipple(false);
     }
   };
 
@@ -67,18 +74,77 @@ export function WaterButton({ slug }: { slug: string }) {
       <button
         onClick={handleWater}
         disabled={state !== "idle"}
-        className="inline-flex items-center justify-center gap-2 border border-water/40 bg-water/5 px-4 py-2.5 font-mono text-[11px] uppercase tracking-[0.15em] text-water hover:bg-water/10 transition-colors disabled:opacity-50 cursor-pointer"
+        className="group relative inline-flex items-center justify-center gap-2 overflow-hidden border border-water/40 bg-water/5 px-5 py-3 font-mono text-[11px] uppercase tracking-[0.15em] text-water transition-all duration-300 ease-out hover:bg-water/10 hover:border-water/60 hover:shadow-[0_0_12px_rgba(37,99,235,0.15)] active:scale-[0.97] disabled:pointer-events-none cursor-pointer"
       >
-        {state === "loading" && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
-        {state === "done" && <Check className="h-3.5 w-3.5" />}
-        {state === "idle" && <Droplets className="h-3.5 w-3.5" />}
-        {state === "done" ? "Logged" : "I just watered this"}
+        <span
+          className={`absolute inset-0 bg-water/10 transition-transform duration-700 ease-out origin-center ${
+            ripple ? "scale-100 opacity-0" : "scale-0 opacity-100"
+          }`}
+        />
+
+        <span
+          className={`relative inline-flex items-center justify-center transition-all duration-300 ${
+            state === "loading"
+              ? "w-3.5"
+              : state === "done"
+                ? "w-3.5"
+                : "w-3.5"
+          }`}
+        >
+          <Droplets
+            className={`h-3.5 w-3.5 absolute transition-all duration-300 ${
+              state === "idle"
+                ? "opacity-100 scale-100"
+                : "opacity-0 scale-75"
+            }`}
+          />
+          <Loader2
+            className={`h-3.5 w-3.5 absolute animate-spin transition-all duration-300 ${
+              state === "loading"
+                ? "opacity-100 scale-100"
+                : "opacity-0 scale-75"
+            }`}
+          />
+          <Check
+            className={`h-3.5 w-3.5 absolute transition-all duration-300 ${
+              state === "done"
+                ? "opacity-100 scale-100"
+                : "opacity-0 scale-75"
+            }`}
+          />
+        </span>
+
+        <span className="relative overflow-hidden h-[1em]">
+          <span
+            className={`block transition-all duration-300 ${
+              state === "done"
+                ? "-translate-y-full opacity-0"
+                : "translate-y-0 opacity-100"
+            }`}
+          >
+            I just watered this
+          </span>
+          <span
+            className={`block transition-all duration-300 text-botanical ${
+              state === "done"
+                ? "-translate-y-full opacity-100"
+                : "translate-y-0 opacity-0"
+            }`}
+          >
+            Logged
+          </span>
+        </span>
       </button>
-      {lastWatered && (
-        <p className="font-mono text-[10px] text-ink-light tracking-wide text-center">
-          Last watered: {formatDate(lastWatered)}
-        </p>
-      )}
+
+      <p
+        className={`font-mono text-[10px] text-ink-light tracking-wide text-center transition-all duration-500 ${
+          lastWatered
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 -translate-y-1"
+        }`}
+      >
+        {lastWatered ? `Last watered: ${formatDate(lastWatered)}` : "\u00A0"}
+      </p>
     </div>
   );
 }
