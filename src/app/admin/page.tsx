@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Loader2, Shield } from "lucide-react";
+import { useState, useEffect, useCallback } from "react";
+import { Loader2, Shield, Trash2, X } from "lucide-react";
 
 interface WateringLog {
   id: number;
@@ -22,30 +22,64 @@ export default function AdminPage() {
   const [ipStats, setIpStats] = useState<IpStat[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState<string | null>(null);
+
+  const fetchLogs = useCallback(async () => {
+    try {
+      const res = await fetch("/api/admin/logs");
+      if (!res.ok) {
+        setError(`${res.status} ${res.statusText}`);
+        return;
+      }
+      const data = (await res.json()) as {
+        logs: WateringLog[];
+        ip_stats: IpStat[];
+        total: number;
+      };
+      setLogs(data.logs);
+      setIpStats(data.ip_stats);
+    } catch {
+      setError("Failed to fetch logs");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
-    async function fetchLogs() {
-      try {
-        const res = await fetch("/api/admin/logs");
-        if (!res.ok) {
-          setError(`${res.status} ${res.statusText}`);
-          return;
-        }
-        const data = await res.json() as {
-          logs: WateringLog[];
-          ip_stats: IpStat[];
-          total: number;
-        };
-        setLogs(data.logs);
-        setIpStats(data.ip_stats);
-      } catch {
-        setError("Failed to fetch logs");
-      } finally {
-        setLoading(false);
-      }
-    }
     fetchLogs();
-  }, []);
+  }, [fetchLogs]);
+
+  const deleteBy = async (
+    key: "id" | "ip" | "user_agent",
+    value: string | number
+  ) => {
+    const label =
+      key === "id"
+        ? `log #${value}`
+        : key === "ip"
+          ? `all logs from IP ${value}`
+          : `all logs from this user agent`;
+
+    if (!confirm(`Delete ${label}?`)) return;
+
+    setDeleting(`${key}:${value}`);
+    try {
+      const res = await fetch("/api/admin/logs", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ [key]: value }),
+      });
+      if (res.ok) {
+        const data = (await res.json()) as { deleted: number };
+        alert(`Deleted ${data.deleted} log(s)`);
+        await fetchLogs();
+      }
+    } catch {
+      alert("Failed to delete");
+    } finally {
+      setDeleting(null);
+    }
+  };
 
   if (loading) {
     return (
@@ -101,11 +135,12 @@ export default function AdminPage() {
                     <th className="px-3 py-2 text-left font-mono uppercase tracking-wider text-ink-light">
                       User Agent
                     </th>
+                    <th className="px-3 py-2 w-8" />
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-ink/5">
                   {logs.map((log) => (
-                    <tr key={log.id} className="hover:bg-paper-dark/30">
+                    <tr key={log.id} className="group hover:bg-paper-dark/30">
                       <td className="px-3 py-2 font-mono text-ink-light">
                         {log.id}
                       </td>
@@ -116,10 +151,54 @@ export default function AdminPage() {
                         {new Date(log.watered_at + "Z").toLocaleString()}
                       </td>
                       <td className="px-3 py-2 font-mono text-ink-light">
-                        {log.ip || "-"}
+                        {log.ip ? (
+                          <span className="inline-flex items-center gap-1">
+                            {log.ip}
+                            <button
+                              onClick={() => deleteBy("ip", log.ip!)}
+                              disabled={deleting === `ip:${log.ip}`}
+                              className="opacity-0 group-hover:opacity-100 text-danger/50 hover:text-danger transition-opacity cursor-pointer"
+                              title={`Delete all from ${log.ip}`}
+                            >
+                              <X className="h-3 w-3" />
+                            </button>
+                          </span>
+                        ) : (
+                          "-"
+                        )}
                       </td>
-                      <td className="px-3 py-2 font-mono text-ink-light max-w-[200px] truncate">
-                        {log.user_agent || "-"}
+                      <td className="px-3 py-2 font-mono text-ink-light max-w-[200px]">
+                        {log.user_agent ? (
+                          <span className="inline-flex items-center gap-1">
+                            <span className="truncate">
+                              {log.user_agent}
+                            </span>
+                            <button
+                              onClick={() =>
+                                deleteBy("user_agent", log.user_agent!)
+                              }
+                              disabled={
+                                deleting === `user_agent:${log.user_agent}`
+                              }
+                              className="shrink-0 opacity-0 group-hover:opacity-100 text-danger/50 hover:text-danger transition-opacity cursor-pointer"
+                              title="Delete all from this user agent"
+                            >
+                              <X className="h-3 w-3" />
+                            </button>
+                          </span>
+                        ) : (
+                          "-"
+                        )}
+                      </td>
+                      <td className="px-3 py-2">
+                        <button
+                          onClick={() => deleteBy("id", log.id)}
+                          disabled={deleting === `id:${log.id}`}
+                          className="opacity-0 group-hover:opacity-100 text-danger/50 hover:text-danger transition-opacity cursor-pointer"
+                          title="Delete this log"
+                        >
+                          <Trash2 className="h-3 w-3" />
+                        </button>
                       </td>
                     </tr>
                   ))}
@@ -140,13 +219,25 @@ export default function AdminPage() {
               {ipStats.map((stat) => (
                 <div
                   key={stat.ip}
-                  className="flex items-center justify-between px-3 py-2"
+                  className="group flex items-center justify-between px-3 py-2"
                 >
                   <span className="font-mono text-[11px] text-ink">
                     {stat.ip || "null"}
                   </span>
-                  <span className="font-mono text-[10px] text-ink-light">
-                    {stat.count}x
+                  <span className="flex items-center gap-2">
+                    <span className="font-mono text-[10px] text-ink-light">
+                      {stat.count}x
+                    </span>
+                    {stat.ip && (
+                      <button
+                        onClick={() => deleteBy("ip", stat.ip)}
+                        disabled={deleting === `ip:${stat.ip}`}
+                        className="opacity-0 group-hover:opacity-100 text-danger/50 hover:text-danger transition-opacity cursor-pointer"
+                        title={`Delete all ${stat.count} logs from ${stat.ip}`}
+                      >
+                        <Trash2 className="h-3 w-3" />
+                      </button>
+                    )}
                   </span>
                 </div>
               ))}
