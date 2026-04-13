@@ -13,8 +13,6 @@ interface WateringLog {
 export function WaterButton({ slug }: { slug: string }) {
   const [state, setState] = useState<"idle" | "loading" | "done">("idle");
   const [lastWatered, setLastWatered] = useState<string | null>(null);
-  const [ripple, setRipple] = useState(false);
-
   const fetchLast = useCallback(async () => {
     try {
       const res = await fetch(`/api/water?slug=${slug}`);
@@ -36,13 +34,11 @@ export function WaterButton({ slug }: { slug: string }) {
     setState("done");
     setTimeout(() => {
       setState("idle");
-      setRipple(false);
     }, 2500);
   };
 
   const handleWater = async () => {
     setState("loading");
-    setRipple(true);
     try {
       const res = await fetch("/api/water", {
         method: "POST",
@@ -76,12 +72,6 @@ export function WaterButton({ slug }: { slug: string }) {
         disabled={state !== "idle"}
         className="group relative inline-flex items-center justify-center gap-2 overflow-hidden border border-water/40 bg-water/5 px-5 py-3 font-mono text-[11px] uppercase tracking-[0.15em] text-water transition-all duration-300 ease-out hover:bg-water/10 hover:border-water/60 hover:shadow-[0_0_12px_rgba(37,99,235,0.15)] active:scale-[0.97] disabled:pointer-events-none cursor-pointer"
       >
-        <span
-          className={`absolute inset-0 bg-water/10 transition-transform duration-700 ease-out origin-center ${
-            ripple ? "scale-100 opacity-0" : "scale-0 opacity-100"
-          }`}
-        />
-
         <span className="relative inline-flex items-center justify-center w-3.5 h-3.5">
           <Droplets
             className={`h-3.5 w-3.5 absolute transition-all duration-300 ${
