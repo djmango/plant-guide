@@ -68,7 +68,7 @@ function statusTextColor(
 
 export default function Home() {
   const [logs, setLogs] = useState<WateringLog[]>([]);
-  const [wateringSlug, setWateringSlug] = useState<string | null>(null);
+  const [wateringSlugs, setWateringSlugs] = useState<Set<string>>(new Set());
 
   const fetchLogs = useCallback(async () => {
     try {
@@ -88,8 +88,8 @@ export default function Home() {
   const handleWater = async (slug: string, e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (wateringSlug) return;
-    setWateringSlug(slug);
+    if (wateringSlugs.has(slug)) return;
+    setWateringSlugs((prev) => new Set(prev).add(slug));
     try {
       await fetch("/api/water", {
         method: "POST",
@@ -100,7 +100,13 @@ export default function Home() {
     } catch {
       // API not available
     }
-    setTimeout(() => setWateringSlug(null), 2000);
+    setTimeout(() => {
+      setWateringSlugs((prev) => {
+        const next = new Set(prev);
+        next.delete(slug);
+        return next;
+      });
+    }, 2000);
   };
 
   const getLastWatered = (slug: string): WateringLog | undefined => {
@@ -114,7 +120,7 @@ export default function Home() {
           const last = getLastWatered(plant.slug);
           const days = last ? daysSince(last.watered_at) : null;
           const expectedDays = parseWaterFrequencyDays(plant.waterFrequency);
-          const isWatering = wateringSlug === plant.slug;
+          const isWatering = wateringSlugs.has(plant.slug);
           const nextLabel = nextWaterLabel(days, expectedDays);
 
           return (
@@ -142,7 +148,7 @@ export default function Home() {
                   {/* Water button */}
                   <button
                     onClick={(e) => handleWater(plant.slug, e)}
-                    disabled={!!wateringSlug}
+                    disabled={wateringSlugs.has(plant.slug)}
                     className={`absolute top-1 right-1 transition-all duration-300 cursor-pointer sm:opacity-0 sm:group-hover:opacity-100 ${
                       isWatering ? "!opacity-0 pointer-events-none" : ""
                     }`}
