@@ -20,13 +20,25 @@ function parseWaterFrequencyDays(freq: string): number {
 
 function nextWaterLabel(daysSinceWater: number, expectedDays: number): string {
   const daysUntil = expectedDays - daysSinceWater;
-  if (daysUntil <= 0) return "Overdue!";
-  if (daysUntil === 1) return "Tomorrow";
-  const next = new Date();
-  next.setDate(next.getDate() + daysUntil);
-  if (daysUntil <= 6)
-    return next.toLocaleDateString("en-US", { weekday: "long" });
-  return next.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  const dueDate = new Date();
+  dueDate.setDate(dueDate.getDate() + daysUntil);
+
+  const date = dueDate.toLocaleDateString("en-US", {
+    month: "numeric",
+    day: "numeric",
+  });
+
+  if (daysUntil < 0) return `overdue ${date}`;
+  if (daysUntil === 0) return `today ${date}`;
+  if (daysUntil === 1) return `tomorrow ${date}`;
+
+  const weekEnd = new Date();
+  weekEnd.setDate(weekEnd.getDate() + (6 - weekEnd.getDay()));
+  weekEnd.setHours(23, 59, 59, 999);
+
+  const weekLabel = dueDate <= weekEnd ? "this" : "next";
+  const weekday = dueDate.toLocaleDateString("en-US", { weekday: "short" });
+  return `${weekLabel} ${weekday} ${date}`;
 }
 
 export function WaterButton({

@@ -32,16 +32,25 @@ function nextWaterLabel(
 ): string {
   if (daysSinceWater === null) return "";
   const daysUntil = expectedDays - daysSinceWater;
+  const dueDate = new Date();
+  dueDate.setDate(dueDate.getDate() + daysUntil);
 
-  if (daysUntil <= 0) return "Overdue!";
-  if (daysUntil === 1) return "Tomorrow";
+  const date = dueDate.toLocaleDateString("en-US", {
+    month: "numeric",
+    day: "numeric",
+  });
 
-  const next = new Date();
-  next.setDate(next.getDate() + daysUntil);
+  if (daysUntil < 0) return `overdue ${date}`;
+  if (daysUntil === 0) return `today ${date}`;
+  if (daysUntil === 1) return `tomorrow ${date}`;
 
-  if (daysUntil <= 6)
-    return next.toLocaleDateString("en-US", { weekday: "long" });
-  return next.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  const weekEnd = new Date();
+  weekEnd.setDate(weekEnd.getDate() + (6 - weekEnd.getDay()));
+  weekEnd.setHours(23, 59, 59, 999);
+
+  const weekLabel = dueDate <= weekEnd ? "this" : "next";
+  const weekday = dueDate.toLocaleDateString("en-US", { weekday: "short" });
+  return `${weekLabel} ${weekday} ${date}`;
 }
 
 function statusBorderColor(
