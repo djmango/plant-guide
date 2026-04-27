@@ -111,6 +111,8 @@ export default async function PlantPage({
             { label: "Pot Type", value: plant.potType },
             { label: "Soil", value: plant.soil },
             { label: "Watering", value: plant.water },
+            { label: "Moisture After Watering", value: plant.moistureAfterWatering },
+            { label: "Water Again At", value: plant.moistureWaterAgain },
             { label: "Light", value: plant.light },
             { label: "Humidity", value: plant.humidity },
             { label: "Temperature", value: plant.temp },

@@ -13,6 +13,8 @@ export interface Plant {
   waterFrequency: string;
   waterMethod: "top-pour" | "reservoir";
   letDry: string;
+  moistureAfterWatering: string;
+  moistureWaterAgain: string;
   light: string;
   humidity: string;
   temp: string;
@@ -38,6 +40,8 @@ export const plants: Plant[] = [
     waterFrequency: "Every 10 days",
     waterMethod: "top-pour",
     letDry: 'Top 2" dry',
+    moistureAfterWatering: "6-7 / 10",
+    moistureWaterAgain: "2-3 / 10",
     light: "Bright indirect",
     humidity: "50–65%",
     temp: "60–80°F",
@@ -62,6 +66,8 @@ export const plants: Plant[] = [
     waterFrequency: "Every 8 days",
     waterMethod: "top-pour",
     letDry: 'Top 2" dry',
+    moistureAfterWatering: "6-7 / 10",
+    moistureWaterAgain: "2-3 / 10",
     light: "Bright indirect",
     humidity: "50–65%",
     temp: "60–80°F",
@@ -86,6 +92,8 @@ export const plants: Plant[] = [
     waterFrequency: "Every 7–10 days",
     waterMethod: "top-pour",
     letDry: 'Top 1" dry',
+    moistureAfterWatering: "6-8 / 10",
+    moistureWaterAgain: "3-4 / 10",
     light: "Bright indirect",
     humidity: "50–70%",
     temp: "60–80°F",
@@ -110,6 +118,8 @@ export const plants: Plant[] = [
     waterFrequency: "Every 5–7 days",
     waterMethod: "reservoir",
     letDry: "Never let dry",
+    moistureAfterWatering: "7-9 / 10",
+    moistureWaterAgain: "4-5 / 10",
     light: "Medium indirect - no direct sun",
     humidity: "60–80%",
     temp: "60–75°F",
@@ -133,6 +143,8 @@ export const plants: Plant[] = [
     waterFrequency: "Every 21 days",
     waterMethod: "top-pour",
     letDry: "Bone dry",
+    moistureAfterWatering: "3-4 / 10",
+    moistureWaterAgain: "1 / 10",
     light: "Full sun - brightest spot you have",
     humidity: "30–50%",
     temp: "50–85°F",
@@ -157,6 +169,8 @@ export const plants: Plant[] = [
     waterFrequency: "Every 7–10 days",
     waterMethod: "reservoir",
     letDry: "No",
+    moistureAfterWatering: "6-8 / 10",
+    moistureWaterAgain: "3-4 / 10",
     light: "Bright indirect, tolerates some direct",
     humidity: "50–60%",
     temp: "60–80°F",
@@ -181,6 +195,8 @@ export const plants: Plant[] = [
     waterFrequency: "Every 7–10 days",
     waterMethod: "reservoir",
     letDry: "No",
+    moistureAfterWatering: "6-8 / 10",
+    moistureWaterAgain: "3-4 / 10",
     light: "Bright indirect",
     humidity: "40–60%",
     temp: "60–80°F",
@@ -205,6 +221,8 @@ export const plants: Plant[] = [
     waterFrequency: "Every 10–14 days",
     waterMethod: "reservoir",
     letDry: "No",
+    moistureAfterWatering: "6-7 / 10",
+    moistureWaterAgain: "3 / 10",
     light: "Low to bright indirect - most forgiving for light",
     humidity: "50–60%",
     temp: "55–80°F",
@@ -229,6 +247,8 @@ export const plants: Plant[] = [
     waterFrequency: "Every 7–10 days",
     waterMethod: "reservoir",
     letDry: "No",
+    moistureAfterWatering: "6-8 / 10",
+    moistureWaterAgain: "3-4 / 10",
     light: "Low to medium indirect",
     humidity: "50–60%",
     temp: "65–80°F",
@@ -253,6 +273,8 @@ export const plants: Plant[] = [
     waterFrequency: "Every 12 days",
     waterMethod: "top-pour",
     letDry: "Completely dry",
+    moistureAfterWatering: "4-5 / 10",
+    moistureWaterAgain: "1-2 / 10",
     light: "Bright indirect to some direct sun",
     humidity: "40–50%",
     temp: "50–80°F",
