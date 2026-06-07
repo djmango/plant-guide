@@ -195,7 +195,7 @@ export default function Home() {
                       </span>
                       {nextLabel && (
                         <span className="font-mono text-[8px] sm:text-[9px] text-ink-light truncate">
-                          / {nextLabel}
+                          / {nextLabel} / dry {plant.moistureWaterAgain}
                         </span>
                       )}
                     </div>
