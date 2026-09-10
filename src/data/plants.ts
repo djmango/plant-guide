@@ -282,6 +282,32 @@ export const plants: Plant[] = [
       "Place on a high ledge so it trails down. Very easy to propagate - just snip a vine and stick it in soil.",
     tags: ["trailing", "succulent", "easy"],
   },
+  {
+    slug: "hoya-lacunosa-souma",
+    name: "Hoya Lacunosa Souma",
+    scientificName: "Hoya lacunosa 'Souma' Variegated",
+    description:
+      "Compact trailing hoya with small oval leaves splashed cream and green. Fragrant blooms when happy.",
+    imageUrl: "/images/plants/hoya-lacunosa-souma.webp",
+    currentPot: '3" nursery',
+    newPot: '4" cream ceramic w/ saucer',
+    potType: "Glazed ceramic, cream, small",
+    soil: "Orchid bark + perlite + coco (40/40/20)",
+    soilMix: "cactus-succulent",
+    water:
+      "Every 10–14 days - let the top 1–2\" dry, then soak until it drains. Empty the saucer.",
+    waterFrequency: "Every 10–14 days",
+    waterMethod: "top-pour",
+    letDry: 'Top 1–2" dry',
+    moistureAfterWatering: "5-6 / 10",
+    moistureWaterAgain: "2-3 / 10",
+    light: "Bright indirect - variegation needs more light than all-green hoyas",
+    humidity: "50–70%",
+    temp: "65–80°F",
+    notes:
+      "Keep it snug; hoyas bloom better a little rootbound. Do not jump more than one pot size. Cream patches burn in harsh noon sun. Flowers smell sweet at night.",
+    tags: ["hoya", "trailing", "variegated", "fragrant"],
+  },
 ];
 
 export function getPlantBySlug(slug: string): Plant | undefined {
