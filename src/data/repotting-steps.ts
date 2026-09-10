@@ -24,7 +24,7 @@ export const repottingSteps: RepottingStep[] = [
     plantNotes: [
       "70/30 FoxFarm/perlite → Fiddle Leafs, Goldfish Plant, Ficus Benjamina, Ficus Moclame, Kentia Palm, Neanthe Bella Palm",
       "80/20 FoxFarm/perlite → Boston Fern",
-      "50–70/30–50 cactus/perlite → Firestick, String of Bananas",
+      "50–70/30–50 cactus/perlite → Firestick, String of Bananas, Hoya Lacunosa Souma",
     ],
   },
   {
