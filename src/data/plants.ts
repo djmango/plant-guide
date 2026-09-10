@@ -289,9 +289,9 @@ export const plants: Plant[] = [
     description:
       "Compact trailing hoya with small oval leaves splashed cream and green. Fragrant blooms when happy.",
     imageUrl: "/images/plants/hoya-lacunosa-souma.webp",
-    currentPot: '3" nursery',
-    newPot: '4" cream ceramic w/ saucer',
-    potType: "Glazed ceramic, cream, small",
+    currentPot: '3" navy ceramic w/ saucer',
+    newPot: '3" navy ceramic, leaf sgraffito, matching saucer',
+    potType: "Glossy navy ceramic, engraved fern/leaf pattern",
     soil: "Orchid bark + perlite + coco (40/40/20)",
     soilMix: "cactus-succulent",
     water:

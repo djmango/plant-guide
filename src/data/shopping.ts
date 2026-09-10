@@ -72,13 +72,13 @@ export const shoppingItems: ShoppingItem[] = [
     note: "Blue painted floral lines on white",
   },
   {
-    id: "ceramic-4-cream",
-    name: '4" cream ceramic w/ saucer',
+    id: "ceramic-3-navy-fern",
+    name: '3" navy ceramic w/ fern sgraffito + saucer',
     category: "ceramic-terracotta",
     forPlants: ["Hoya Lacunosa Souma"],
     price: "$8–15",
     quantity: 1,
-    note: "Keep snug; do not jump past 4\"",
+    note: "Glossy navy, beige engraved leaves, matching saucer. Keep snug.",
   },
   {
     id: "terra-12",
