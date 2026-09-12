@@ -17,3 +17,9 @@ npm run build
 ```
 
 Static output goes to `out/` for Cloudflare Pages deployment.
+
+## Deploy
+
+Push to `master` (or run the **Deploy** workflow) builds the site and uploads it to Cloudflare Pages project `plant-guide` (`plants.skg.gg`).
+
+GitHub Actions needs one repo secret, `CLOUDFLARE_API_TOKEN`, with Account → Cloudflare Pages → Edit on this Cloudflare account.
