@@ -308,6 +308,58 @@ export const plants: Plant[] = [
       "Keep it snug; hoyas bloom better a little rootbound. Do not jump more than one pot size. Cream patches burn in harsh noon sun. Flowers smell sweet at night.",
     tags: ["hoya", "trailing", "variegated", "fragrant"],
   },
+  {
+    slug: "money-tree",
+    name: "Money Tree",
+    scientificName: "Pachira aquatica",
+    description:
+      "Braided trunk with glossy hand-shaped leaves, five leaflets each. The luck plant.",
+    imageUrl: "/images/plants/money-tree.webp",
+    currentPot: '10" nursery',
+    newPot: '12" gold-glazed ceramic w/ saucer',
+    potType: "Glazed ceramic, gold/ochre",
+    soil: "FoxFarm Ocean Forest + perlite (70/30)",
+    soilMix: "foxfarm-70-30",
+    water:
+      "Every 7–10 days - let the top 1–2\" dry, then drench until it drains. Empty the saucer.",
+    waterFrequency: "Every 7–10 days",
+    waterMethod: "top-pour",
+    letDry: 'Top 1–2" dry',
+    moistureAfterWatering: "6-7 / 10",
+    moistureWaterAgain: "2-3 / 10",
+    light: "Bright indirect",
+    humidity: "40–60%",
+    temp: "65–80°F",
+    notes:
+      "Overwatering is the usual killer. Do not sit the braid in water. Rotate weekly so it does not lean. Wipe dust off the leaflets monthly.",
+    tags: ["pachira", "braided", "easy", "bright-light"],
+  },
+  {
+    slug: "gardenia-bonsai",
+    name: "Gardenia Bonsai",
+    scientificName: "Gardenia jasminoides 'Radicans'",
+    description:
+      "Costco small bonsai: glossy dark leaves and suede-white flowers with a heavy perfume. Outdoor plant.",
+    imageUrl: "/images/plants/gardenia-bonsai.webp",
+    currentPot: 'Costco oval ceramic 8" long × 6" wide',
+    newPot: "Keep the oval bonsai pot (do not upsize)",
+    potType: "High-fired oval ceramic, cream",
+    soil: "FoxFarm Ocean Forest + perlite (70/30), keep acidic",
+    soilMix: "foxfarm-70-30",
+    water:
+      "Every 2–4 days outdoors - keep evenly moist, never bone dry. Water until it runs out, empty the tray.",
+    waterFrequency: "Every 2–4 days",
+    waterMethod: "top-pour",
+    letDry: "Never bone dry",
+    moistureAfterWatering: "7-8 / 10",
+    moistureWaterAgain: "4-5 / 10",
+    light: "Full sun to part sun, outdoors",
+    humidity: "50–70%",
+    temp: "60–80°F outdoors; protect below 50°F",
+    notes:
+      "Costco item 648964 / model DT0107G. Almost certainly dwarf gardenia (G. jasminoides 'Radicans'), 6–8\" tall. Blooms March–June. This is an outdoor bonsai - it will fade indoors after a few days. Acid soil, no lime water if you can help it. Buds drop if it dries out or sits in a draft.",
+    tags: ["gardenia", "bonsai", "flowering", "fragrant", "outdoor"],
+  },
 ];
 
 export function getPlantBySlug(slug: string): Plant | undefined {

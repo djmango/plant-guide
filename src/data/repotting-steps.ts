@@ -22,7 +22,7 @@ export const repottingSteps: RepottingStep[] = [
       "Mix soils in a bucket or tub - FoxFarm + perlite for tropicals, cactus mix + perlite for succulents.",
     icon: "beaker",
     plantNotes: [
-      "70/30 FoxFarm/perlite → Fiddle Leafs, Goldfish Plant, Ficus Benjamina, Ficus Moclame, Kentia Palm, Neanthe Bella Palm",
+      "70/30 FoxFarm/perlite → Fiddle Leafs, Goldfish Plant, Ficus Benjamina, Ficus Moclame, Kentia Palm, Neanthe Bella Palm, Money Tree, Gardenia Bonsai",
       "80/20 FoxFarm/perlite → Boston Fern",
       "50–70/30–50 cactus/perlite → Firestick, String of Bananas, Hoya Lacunosa Souma",
     ],
@@ -81,7 +81,7 @@ export const repottingSteps: RepottingStep[] = [
       "For ceramic/terracotta: water from top until it runs into the saucer. Empty saucer after 30 min.",
     icon: "cup-soda",
     plantNotes: [
-      "Fiddle Leaf Fig Tree, Fiddle Leaf Fig Bush, Goldfish Plant, Firestick, String of Bananas",
+      "Fiddle Leaf Fig Tree, Fiddle Leaf Fig Bush, Goldfish Plant, Firestick, String of Bananas, Hoya Lacunosa Souma, Money Tree, Gardenia Bonsai",
     ],
   },
   {
