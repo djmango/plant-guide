@@ -316,8 +316,8 @@ export const plants: Plant[] = [
       "Braided trunk with glossy hand-shaped leaves, five leaflets each. The luck plant.",
     imageUrl: "/images/plants/money-tree.webp",
     currentPot: '10" nursery',
-    newPot: '12" gold-glazed ceramic w/ saucer',
-    potType: "Glazed ceramic, gold/ochre",
+    newPot: '12" green ceramic, leaf sgraffito, matching saucer',
+    potType: "Dull sage-green glazed ceramic, cream leaf sgraffito, grey/brown shading",
     soil: "FoxFarm Ocean Forest + perlite (70/30)",
     soilMix: "foxfarm-70-30",
     water:

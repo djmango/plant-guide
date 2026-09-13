@@ -81,13 +81,13 @@ export const shoppingItems: ShoppingItem[] = [
     note: "Glossy navy, beige engraved leaves, matching saucer. Keep snug.",
   },
   {
-    id: "ceramic-12-gold",
-    name: '12" gold-glazed ceramic w/ saucer',
+    id: "ceramic-12-green",
+    name: '12" green ceramic, leaf sgraffito + saucer',
     category: "ceramic-terracotta",
     forPlants: ["Money Tree"],
     price: "$20–35",
     quantity: 1,
-    note: "Drainage hole required. Empty saucer after watering.",
+    note: "Dull sage green, cream leaf sgraffito, grey/brown shading, matching saucer. Drainage hole required. Empty saucer after watering.",
   },
   {
     id: "terra-12",
